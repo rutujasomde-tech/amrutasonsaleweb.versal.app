@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OnlineBook - Your Online Bookstore</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #172554;
+      color: white;
+      padding: 20px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: #fbbf24;
+    }
+
+    nav {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .cart-btn {
+      background: #fbbf24;
+      color: #172554;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #172554, #2563eb);
+      color: white;
+      padding: 70px 7%;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 25px;
+      color: #e0e7ff;
+    }
+
+    .hero button {
+      background: #fbbf24;
+      color: #172554;
+      padding: 13px 25px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 45px 7%;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 30px;
+      margin-bottom: 25px;
+      color: #172554;
+    }
+
+    .search-box {
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto 35px;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 16px;
+      outline-color: #2563eb;
+    }
+
+    .books {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 25px;
+    }
+
+    .book-card {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px #00000012;
+      transition: transform 0.25s;
+    }
+
+    .book-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .book-cover {
+      height: 190px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 75px;
+      background: #dbeafe;
+    }
+
+    .book-info {
+      padding: 20px;
+    }
+
+    .book-info h3 {
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .author {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 13px;
+    }
+
+    .price {
+      color: #15803d;
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .add-btn {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .cart-section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 30px;
+      box-shadow: 0 4px 15px #0000000c;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .remove-btn {
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 7px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .checkout-btn {
+      margin-top: 18px;
+      background: #15803d;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #172554;
+      color: white;
+      text-align: center;
+      padding: 25px;
+      margin-top: 35px;
+    }
+
+    .empty {
+      color: #64748b;
+      padding: 15px 0;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        justify-content: center;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .hero {
+        padding: 50px 5%;
+      }
+
+      .container {
+        padding: 35px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Online<span>Book</span> 📚</div>
+
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#books">Books</a>
+      <a href="#about">About</a>
+      <button class="cart-btn" onclick="showCart()">
+        🛒 Cart (<span id="cart-count">0</span>)
+      </button>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h1>Discover Your Next Favorite Book</h1>
+    <p>Explore amazing books and start your reading journey today!</p>
+    <button onclick="document.getElementById('books').scrollIntoView({behavior:'smooth'})">
+      Explore Books →
+    </button>
+  </section>
+
+  <main class="container" id="books">
+    <h2 class="section-title">📚 Our Book Collection</h2>
+
+    <input
+      type="text"
+      class="search-box"
+      id="search"
+      placeholder="🔍 Search books by title or author..."
+      oninput="searchBooks()"
+    >
+
+    <div class="books" id="book-list"></div>
+
+    <section class="cart-section" id="cart-section">
+      <h2>🛒 Your Shopping Cart</h2>
+      <div id="cart-items"></div>
+      <h3 id="total" style="margin-top:15px;">Total: ₹0</h3>
+      <button class="checkout-btn" onclick="checkout()">
+        Proceed to Checkout
+      </button>
+    </section>
+  </main>
+
+  <section class="container" id="about">
+    <h2 class="section-title">About OnlineBook</h2>
+    <p style="text-align:center;line-height:1.8;color:#475569;">
+      OnlineBook is your simple online bookstore demo.
+      Discover books, explore your collection and add your
+      favorite reads to your shopping cart.
+    </p>
+  </section>
+
+  <footer>
+    <p>© 2026 OnlineBook | Made with ❤️ for Book Lovers</p>
+  </footer>
+
+  <script>
+    const books = [
+      {
+        id: 1,
+        title: "Rich Dad Poor Dad",
+        author: "Robert Kiyosaki",
+        price: 299,
+        emoji: "💰",
+        color: "#fef3c7"
+      },
+      {
+        id: 2,
+        title: "Atomic Habits",
+        author: "James Clear",
+        price: 349,
+        emoji: "🎯",
+        color: "#dcfce7"
+      },
+      {
+        id: 3,
+        title: "The Alchemist",
+        author: "Paulo Coelho",
+        price: 249,
+        emoji: "✨",
+        color: "#fce7f3"
+      },
+      {
+        id: 4,
+        title: "Think and Grow Rich",
+        author: "Napoleon Hill",
+        price: 279,
+        emoji: "🧠",
+        color: "#ede9fe"
+      },
+      {
+        id: 5,
+        title: "Wings of Fire",
+        author: "A. P. J. Abdul Kalam",
+        price: 199,
+        emoji: "🚀",
+        color: "#ffedd5"
+      },
+      {
+        id: 6,
+        title: "Ikigai",
+        author: "Hector Garcia",
+        price: 319,
+        emoji: "🌿",
+        color: "#ccfbf1"
+      }
+    ];
+
+    let cart = [];
+
+    function displayBooks(list = books) {
+      const bookList = document.getElementById("book-list");
+
+      if (list.length === 0) {
+        bookList.innerHTML =
+          '<p class="empty">No books found. Try another search.</p>';
+        return;
+      }
+
+      bookList.innerHTML = list.map(book => `
+        <article class="book-card">
+          <div class="book-cover" style="background:${book.color}">
+            ${book.emoji}
+          </div>
+          <div class="book-info">
+            <h3>${book.title}</h3>
+            <p class="author">By ${book.author}</p>
+            <p class="price">₹${book.price}</p>
+            <button class="add-btn" onclick="addToCart(${book.id})">
+              Add to Cart +
+            </button>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function addToCart(id) {
+      const book = books.find(item => item.id === id);
+      const existing = cart.find(item => item.id === id);
+
+      if (existing) {
+        existing.quantity++;
+      } else {
+        cart.push({ ...book, quantity: 1 });
+      }
+
+      updateCart();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(item => item.id !== id);
+      updateCart();
+    }
+
+    function updateCart() {
+      const count = cart.reduce(
+        (sum, item) => sum + item.quantity, 0
+      );
+
+      document.getElementById("cart-count").textContent = count;
+
+      const cartItems = document.getElementById("cart-items");
+
+      if (cart.length === 0) {
+        cartItems.innerHTML =
+          '<p class="empty">Your cart is empty. Add some books!</p>';
+      } else {
+        cartItems.innerHTML = cart.map(item => `
+          <div class="cart-item">
+            <div>
+              <strong>${item.title}</strong><br>
+              <small>₹${item.price} × ${item.quantity}</small>
+            </div>
+            <div>
+              <strong>₹${item.price * item.quantity}</strong>
+              <button class="remove-btn"
+                onclick="removeFromCart(${item.id})">
+                Remove
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity, 0
+      );
+
+      document.getElementById("total").textContent =
+        "Total: ₹" + total;
+    }
+
+    function searchBooks() {
+      const query = document
+        .getElementById("search")
+        .value.toLowerCase().trim();
+
+      const filtered = books.filter(book =>
+        book.title.toLowerCase().includes(query) ||
+        book.author.toLowerCase().includes(query)
+      );
+
+      displayBooks(filtered);
+    }
+
+    function showCart() {
+      document.getElementById("cart-section").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty! Please add a book first.");
+        return;
+      }
+
+      alert(
+        "Thank you for shopping with OnlineBook! 📚\n\n" +
+        "This is a demo website. Online payment and real order " +
+        "processing are not connected yet."
+      );
+    }
+
+    displayBooks();
+    updateCart();
+  </script>
+
+</body>
+</html>
